@@ -1,4 +1,2 @@
-# DotsTraining
-unity Dots ╫ц╫╨еш Training га╥на╖ф╝ ют╢о╢ы
-
-## Unity Dots ╪Ёд║╧Щ
+# Framework
+c# К█╟Л²╢М└╟ Й╢─К╕╛ Л°└М∙° М■└К═┬Л·└Л⌡▄М│╛ Л·┘К▀┬К▀╓
