@@ -9,7 +9,9 @@ public class ScoreSystem : AbstractSystem,IScoreSystem
     {
         var gamemodel = this.GetModel<IGameModel>();
 
-        
+        this.RegisterEvent<GameModel>(o => {
+            
+        });
     }
 
     

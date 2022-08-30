@@ -7,8 +7,11 @@ public abstract class Architecture<T>:IArchitecture where T : Architecture<T>,ne
 {
     private static T mArchitecture;
 
-    private IOCContainer mContainer = new IOCContainer();
+    private List<ISystem> mSystems = new List<ISystem>();
 
+    private List<IModel> mModels = new List<IModel>();
+
+    private IOCContainer mContainer = new IOCContainer();
     public static IArchitecture Interface
     {
         get
@@ -24,6 +27,21 @@ public abstract class Architecture<T>:IArchitecture where T : Architecture<T>,ne
     static void MakeSureArchitecture()
     {
         mArchitecture = new T();
+        mArchitecture.Init();
+
+        foreach (var architectureModel in mArchitecture.mModels)
+        {
+            architectureModel.Init();
+        }
+
+        mArchitecture.mModels.Clear();
+
+        foreach (var architectureSystem in mArchitecture.mSystems)
+        {
+            architectureSystem.Init();
+        }
+
+        mArchitecture.mSystems.Clear();
     }
 
     protected abstract void Init();
@@ -33,7 +51,7 @@ public abstract class Architecture<T>:IArchitecture where T : Architecture<T>,ne
         system.SetArchitecture(this);
         mContainer.Register<TSystem>(system);
 
-        system.Init();
+        mSystems.Add(system);
     }
 
     public void RegisterModel<Tmodel>(Tmodel model)where Tmodel:IModel
@@ -41,12 +59,36 @@ public abstract class Architecture<T>:IArchitecture where T : Architecture<T>,ne
         model.SetArchitecture(this);
         mContainer.Register<Tmodel>(model);
 
-        model.Init();
+        mModels.Add(model);
     }
     public TModel GetModel<TModel>() where TModel:class,IModel
     {
         return mContainer.Get<TModel>();
     }
+
+    public void SendEvent<TEvent>() where TEvent : new()
+    {
+        MessageEventSystem.Send<TEvent>();
+    }
+
+    public void SendEvent<TEvent>(TEvent e)
+    {
+        MessageEventSystem.Send<TEvent>(e);
+    }
+
+    public void RegisterEvent<TEvent>(Action<TEvent> onEvent)where TEvent : new()
+    {
+        MessageEventSystem.RegisterEvent<TEvent>(onEvent);
+    }
+
+    public void UnRegisterEvent<TEvent>(Action<TEvent> onEvent) where TEvent : new()
+    {
+        MessageEventSystem.UnRegisterEvent<TEvent>(onEvent);
+    }
+
+    //void RegisterEvent<T>(Action<T> onEvent);
+
+    //void UnRegisterEvent<T>(Action<T> onEvent);
 }
 
 public abstract class AbstractSystem : ISystem
@@ -61,6 +103,7 @@ public abstract class AbstractSystem : ISystem
     {
         mArchitecture=architecture;
     }
+
     void ISystem.Init()
     {
         OnInit();
@@ -93,6 +136,10 @@ public abstract class AbstractModel : IModel
 public interface IArchitecture
 {
     T GetModel<T>() where T : class, IModel;
+
+    void RegisterEvent<T>(Action<T> onEvent) where T: new();
+
+    void UnRegisterEvent<T>(Action<T> onEvent) where T: new();
 }
 
 public interface IModel : IBelongToArchitecture, ICanSetArchitecture, ICanGetUtility, ICanSendEvent
@@ -168,7 +215,22 @@ public class IOCContainer
 }
 #endregion
 #region Extension
+public interface IOnEvent<T>
+{
+    void OnEvent(T e);
+}
+public static class OnGlobalEventExtension
+{
+    public static void RegisterEvent<T>(this IOnEvent<T> self) where T : new()
+    {
+        MessageEventSystem.RegisterEvent<T>(self.OnEvent);
+    }
 
+    public static void UnRegisterEvent<T>(this IOnEvent<T> self) where T : new()
+    {
+        MessageEventSystem.UnRegisterEvent<T>(self.OnEvent);
+    }
+}
 public static class CanGetModelExtension
 {
     public static T GetModel<T>(this ICanGetModel self)where T:class, IModel
@@ -176,6 +238,19 @@ public static class CanGetModelExtension
         return self.GetArchitecture().GetModel<T>();
     }
 }
+
+public static class CanRegisterEventExtension
+{
+    public static void RegisterEvent<T>(this ICanRegisterEvent self,Action<T> onEvent) where T : new()
+    {
+        self.GetArchitecture().RegisterEvent<T>(onEvent);
+    }
+    public static void UnRegisterEvent<T>(this ICanRegisterEvent self, Action<T> onEvent) where T : new()
+    {
+        self.GetArchitecture().UnRegisterEvent<T>(onEvent);
+    }
+}
+
 #endregion
 
 #region ETC
@@ -255,6 +330,88 @@ public class BindableProperty<T>:IBindableProperty<T>
     public void UnRegister(Action<T> onValueChanged)
     {
         mOnValueChanged -= onValueChanged;
+    }
+}
+
+public interface ObserverEvent
+{
+
+}
+
+public class MessageEventSystem
+{
+    private static Dictionary<string, List<Delegate>> handlers = new Dictionary<string, List<Delegate>>();
+
+    public static void RegisterEvent<T>(Action<T> e) where T : new()
+    {
+        var keyname = typeof(T).ToString();
+
+        List<Delegate> existlist;
+        if(handlers.ContainsKey(keyname))
+        {
+            existlist = handlers[keyname];
+            var existfunc=existlist.Find(o=>o.Method==e.Method&&o.Target==e.Target);
+            if(existfunc==null)
+            {
+                existlist.Add(e);
+            }
+        }
+        else
+        {
+            existlist = new List<Delegate>();
+            existlist.Add(e);
+            handlers.Add(keyname,existlist);
+        }
+    }
+    public static void UnRegisterEvent<T>(Action<T> e) where T : new()
+    {
+        var keyname = typeof(T).ToString();
+
+        List<Delegate> existlist;
+        if (handlers.ContainsKey(keyname))
+        {
+            existlist = handlers[keyname];
+            var existfunc = existlist.Find(o => o.Method == e.Method && o.Target == e.Target);
+            if (existfunc == null)
+            {
+                existlist.Remove(existfunc);
+            }
+        }
+        else
+        {
+            UnityEngine.Debug.Log($"{e.Method}||{e.Target} not exist in eventlist");
+        }
+    }
+
+    public static void Send<T>()where T : new()
+    {
+        var _value = new T();
+        var keyname = typeof(T).ToString();
+
+        if(handlers.ContainsKey(keyname))
+        {
+            var existlist = handlers[keyname];
+            foreach (var e in existlist)
+            {
+                var _action = (Action<T>)e;
+                _action?.Invoke(_value);
+            }
+        }
+    }
+
+    public static void Send<T>(T e)
+    {
+        var keyname = typeof(T).ToString();
+
+        if (handlers.ContainsKey(keyname))
+        {
+            var existlist = handlers[keyname];
+            foreach (var f in existlist)
+            {
+                var _action = (Action<T>)f;
+                _action?.Invoke(e);
+            }
+        }
     }
 }
 #endregion
