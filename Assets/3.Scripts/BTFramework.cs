@@ -140,6 +140,14 @@ public interface IArchitecture
     void RegisterEvent<T>(Action<T> onEvent) where T: new();
 
     void UnRegisterEvent<T>(Action<T> onEvent) where T: new();
+
+    void SendEvent<TEvent>() where TEvent : new();
+    void SendEvent<TEvent>(TEvent e);
+  
+}
+public interface IController : IBelongToArchitecture, ICanGetSystem, ICanGetModel,
+       ICanRegisterEvent,ICanSendEvent
+{
 }
 
 public interface IModel : IBelongToArchitecture, ICanSetArchitecture, ICanGetUtility, ICanSendEvent
@@ -248,6 +256,15 @@ public static class CanRegisterEventExtension
     public static void UnRegisterEvent<T>(this ICanRegisterEvent self, Action<T> onEvent) where T : new()
     {
         self.GetArchitecture().UnRegisterEvent<T>(onEvent);
+    }
+
+    public static void SendEvent<T>(this ICanSendEvent self,T e )
+    {
+        self.GetArchitecture().SendEvent<T>(e);
+    }
+    public static void SendEvent<T>(this ICanSendEvent self)where T : new()
+    {
+        self.GetArchitecture().SendEvent<T>();
     }
 }
 

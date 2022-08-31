@@ -25,7 +25,7 @@ public class GameModel : AbstractModel, IGameModel
         Gold.Register(o => { Debug.Log($"°ñµå È¹µæ: {Gold.ToString()}"); } );
 
         Score.Value = 0;
-        Score.Register(o => { Debug.Log($"½ºÄÚ¾î È¹µæ: {Gold.ToString()}"); });
+        Score.Register(o => { Debug.Log($"½ºÄÚ¾î È¹µæ: {Score.ToString()}"); });
     }
 }
 

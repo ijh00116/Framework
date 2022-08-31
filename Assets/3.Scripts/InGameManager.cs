@@ -16,7 +16,6 @@ public class InGameManager : Architecture<InGameManager>
     protected override void Init()
     {
         RegisterSystem<IScoreSystem>(new ScoreSystem());
-   
         RegisterModel<IGameModel>(new GameModel());
     }
 }
