@@ -27,5 +27,9 @@ public class InGameController : MonoBehaviour,IController
         {
             this.SendEvent<AddScore>();
         }
+        if (Input.GetKeyUp(KeyCode.J))
+        {
+            this.SendCommand<KillCommand>();
+        }
     }
 }

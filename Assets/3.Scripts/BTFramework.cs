@@ -89,6 +89,19 @@ public abstract class Architecture<T>:IArchitecture where T : Architecture<T>,ne
     //void RegisterEvent<T>(Action<T> onEvent);
 
     //void UnRegisterEvent<T>(Action<T> onEvent);
+
+    public void SendCommand<TCommand>(TCommand command) where TCommand : ICommand
+    {
+        command.SetArchitecture(this);
+        command.Execute();
+    }
+
+    public void SendCommand<TCommand>() where TCommand : ICommand,new()
+    {
+        var command = new TCommand();
+        command.SetArchitecture(this);
+        command.Execute();
+    }
 }
 
 public abstract class AbstractSystem : ISystem
@@ -131,7 +144,32 @@ public abstract class AbstractModel : IModel
     }
 
     protected abstract void OnInit();
+
+
 }
+
+public abstract class AbstractCommand : ICommand
+{
+    private IArchitecture mArchitecture;
+
+    IArchitecture IBelongToArchitecture.GetArchitecture()
+    {
+        return mArchitecture;
+    }
+
+    void ICanSetArchitecture.SetArchitecture(IArchitecture architecture)
+    {
+        mArchitecture = architecture;
+    }
+
+    void ICommand.Execute()
+    {
+        OnExecute();
+    }
+
+    protected abstract void OnExecute();
+}
+
 #region Interface
 public interface IArchitecture
 {
@@ -143,10 +181,13 @@ public interface IArchitecture
 
     void SendEvent<TEvent>() where TEvent : new();
     void SendEvent<TEvent>(TEvent e);
-  
+
+    void SendCommand<TCommand>(TCommand command)where TCommand:ICommand;
+    void SendCommand<TCommand>() where TCommand : ICommand, new();
+
 }
 public interface IController : IBelongToArchitecture, ICanGetSystem, ICanGetModel,
-       ICanRegisterEvent,ICanSendEvent
+       ICanRegisterEvent,ICanSendEvent,ICanSendCommand
 {
 }
 
@@ -158,6 +199,17 @@ public interface IModel : IBelongToArchitecture, ICanSetArchitecture, ICanGetUti
 public interface ISystem:IBelongToArchitecture, ICanSetArchitecture,ICanGetSystem,ICanGetModel,ICanGetUtility,ICanRegisterEvent,ICanSendEvent
 {
     void Init();
+}
+
+public interface ICommand : IBelongToArchitecture, ICanSetArchitecture, ICanGetSystem, ICanGetModel, ICanGetUtility,
+    ICanSendEvent, ICanSendCommand
+{
+    void Execute();
+}
+
+public interface ICanSendCommand : IBelongToArchitecture
+{
+
 }
 
 public interface IBelongToArchitecture
@@ -267,6 +319,20 @@ public static class CanRegisterEventExtension
         self.GetArchitecture().SendEvent<T>();
     }
 }
+
+public static class CanSendCommandExtension
+{
+    public static void SendCommand<T>(this ICanSendCommand self,T e)where T : ICommand
+    {
+        self.GetArchitecture().SendCommand<T>(e);
+    }
+
+    public static void SendCommand<T>(this ICanSendCommand self) where T : ICommand, new()
+    {
+        self.GetArchitecture().SendCommand<T>();
+    }
+}
+
 
 #endregion
 
