@@ -3,33 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InGameController : MonoBehaviour,IController
+namespace BlackTree
 {
-    public IArchitecture GetArchitecture()
+    public class InGameController : MonoBehaviour, IController
     {
-        return InGameManager.Interface;
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        var gamemodel=this.GetModel<IGameModel>();
-    }
+        [HideInInspector] public Data_Character PlayerCharacterdata;
+        public IArchitecture GetArchitecture()
+        {
+            return InGameManager.Interface;
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetKeyUp(KeyCode.L))
+        // Start is called before the first frame update
+        void Start()
         {
-            this.SendEvent<AddGold>();
+            var gamemodel = this.GetModel<IGameModel>();
+            StartCoroutine(TableManager.Instance.Load());
         }
-        if (Input.GetKeyUp(KeyCode.K))
+
+        // Update is called once per frame
+        void Update()
         {
-            this.SendEvent<AddScore>();
-        }
-        if (Input.GetKeyUp(KeyCode.J))
-        {
-            this.SendCommand<KillCommand>();
+            if (Input.GetKeyUp(KeyCode.L))
+            {
+                this.SendEvent<AddGold>();
+            }
+            if (Input.GetKeyUp(KeyCode.K))
+            {
+                this.SendEvent<AddScore>();
+            }
+            if (Input.GetKeyUp(KeyCode.J))
+            {
+                this.SendCommand<KillCommand>();
+            }
         }
     }
 }
