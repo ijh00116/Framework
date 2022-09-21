@@ -14,13 +14,18 @@ namespace BlackTree
                 if(instance == null)
                 {
                     instance=FindObjectOfType<T>();
+                    if (instance == null)
+                    {
+                        instance = new GameObject(typeof(T).Name).AddComponent<T>();
+                    }
+                    else
+                    {
+                        instance.Init();
+                    }
                 }
-                if(instance == null)
-                {
-                    instance = new GameObject(typeof(T).Name).AddComponent<T>();
-                }
+                
 
-                instance.Init();
+                
                 return instance;
             }
             

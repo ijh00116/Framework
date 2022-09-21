@@ -9,16 +9,23 @@ namespace BlackTree
     {
 
         [HideInInspector] public Data_Character PlayerCharacterdata;
+
+        public SkillInventoryInterface inventory;
         public IArchitecture GetArchitecture()
         {
             return InGameManager.Interface;
         }
 
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             var gamemodel = this.GetModel<IGameModel>();
             StartCoroutine(TableManager.Instance.Load());
+        }
+
+        private void Start()
+        {
+            inventory.Init();
         }
 
         // Update is called once per frame

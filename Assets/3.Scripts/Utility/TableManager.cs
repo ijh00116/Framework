@@ -26,7 +26,7 @@ namespace BlackTree
 
         public IEnumerator Load()
         {
-            AbilityList = ReadData<Ability_DataTable>("DT_KR_Abillities.xlsx");
+            AbilityList = ReadData<Ability_DataTable>("DT_Abillities.xlsx");
             healerskillList = ReadData<HealerSkill_DataTable>("DT_KR_HealerSkill_Test.xlsx");
             yield break;
         }
@@ -41,6 +41,12 @@ namespace BlackTree
                 return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(jsonString.text);
             }
             return default;
+        }
+
+        [ContextMenu("delete")]
+        public void PlayerprefsDelete()
+        {
+            PlayerPrefs.DeleteAll();
         }
     }
 }

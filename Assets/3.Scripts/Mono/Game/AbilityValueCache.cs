@@ -12,9 +12,9 @@ namespace BlackTree
         ArmorUp,
         End
     }
-    public enum AbilityValueType
+    public enum AbilityContentType
     {
-        Item,
+        Skill,
         End
     }
 
@@ -22,9 +22,9 @@ namespace BlackTree
     {
         public class Value
         {
-            public int value;
+            public float value;
             public int AbilityIdx;
-            public Value(int _value)
+            public Value(float _value)
             {
                 value= _value;
             }
@@ -61,7 +61,7 @@ namespace BlackTree
             return values.ContainsKey(_type);
         }
 
-        public int GetValue(AbilitiesType abilType,int abilIdx)
+        public float GetValue(AbilitiesType abilType,int abilIdx)
         {
             if (values.ContainsKey(abilType))
             {
@@ -72,9 +72,9 @@ namespace BlackTree
             return 0;       
         }
 
-        public int GetValue(AbilitiesType abilityType)
+        public float GetValue(AbilitiesType abilityType)
         {
-            int data = 0;
+            float data = 0;
             if (values.ContainsKey(abilityType))
             {
                 Dictionary<int, Value> valueList = values[abilityType];
@@ -86,7 +86,7 @@ namespace BlackTree
             return data;
         }
 
-        public void SetValue(AbilitiesType abilityType, int abilIndex, int value)
+        public void SetValue(AbilitiesType abilityType, int abilIndex, float value)
         {
             if (values.ContainsKey(abilityType))
             {

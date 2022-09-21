@@ -1,0 +1,304 @@
+{
+  "abilities": [
+    {
+      "idx": "100001",
+      "abtype": "AttackUp",
+      "level_unit": "10",
+      "name": "ability_001"
+    },
+    {
+      "idx": "100002",
+      "abtype": "AttackUp",
+      "level_unit": "11",
+      "name": "ability_001"
+    },
+    {
+      "idx": "100003",
+      "abtype": "AttackUp",
+      "level_unit": "12",
+      "name": "ability_001"
+    },
+    {
+      "idx": "100004",
+      "abtype": "AttackUp",
+      "level_unit": "13",
+      "name": "ability_001"
+    },
+    {
+      "idx": "100005",
+      "abtype": "AttackUp",
+      "level_unit": "14",
+      "name": "ability_001"
+    },
+    {
+      "idx": "100006",
+      "abtype": "AttackUp",
+      "level_unit": "30",
+      "name": "ability_001"
+    },
+    {
+      "idx": "100007",
+      "abtype": "AttackUp",
+      "level_unit": "31",
+      "name": "ability_001"
+    },
+    {
+      "idx": "100008",
+      "abtype": "AttackUp",
+      "level_unit": "32",
+      "name": "ability_001"
+    },
+    {
+      "idx": "100009",
+      "abtype": "AttackUp",
+      "level_unit": "33",
+      "name": "ability_001"
+    },
+    {
+      "idx": "100010",
+      "abtype": "AttackUp",
+      "level_unit": "34",
+      "name": "ability_001"
+    },
+    {
+      "idx": "100101",
+      "abtype": "AttackDown",
+      "level_unit": "30",
+      "name": "ability_002"
+    },
+    {
+      "idx": "100102",
+      "abtype": "AttackDown",
+      "level_unit": "31",
+      "name": "ability_002"
+    },
+    {
+      "idx": "100103",
+      "abtype": "AttackDown",
+      "level_unit": "32",
+      "name": "ability_002"
+    },
+    {
+      "idx": "100104",
+      "abtype": "AttackDown",
+      "level_unit": "33",
+      "name": "ability_002"
+    },
+    {
+      "idx": "100105",
+      "abtype": "AttackDown",
+      "level_unit": "34",
+      "name": "ability_002"
+    },
+    {
+      "idx": "100106",
+      "abtype": "AttackDown",
+      "level_unit": "50",
+      "name": "ability_002"
+    },
+    {
+      "idx": "100107",
+      "abtype": "AttackDown",
+      "level_unit": "51",
+      "name": "ability_002"
+    },
+    {
+      "idx": "100108",
+      "abtype": "AttackDown",
+      "level_unit": "52",
+      "name": "ability_002"
+    },
+    {
+      "idx": "100109",
+      "abtype": "AttackDown",
+      "level_unit": "53",
+      "name": "ability_002"
+    },
+    {
+      "idx": "100110",
+      "abtype": "AttackDown",
+      "level_unit": "54",
+      "name": "ability_002"
+    },
+    {
+      "idx": "100201",
+      "abtype": "HpUp",
+      "level_unit": "10",
+      "name": "ability_003"
+    },
+    {
+      "idx": "100202",
+      "abtype": "HpUp",
+      "level_unit": "11",
+      "name": "ability_003"
+    },
+    {
+      "idx": "100203",
+      "abtype": "HpUp",
+      "level_unit": "12",
+      "name": "ability_003"
+    },
+    {
+      "idx": "100204",
+      "abtype": "HpUp",
+      "level_unit": "13",
+      "name": "ability_003"
+    },
+    {
+      "idx": "100205",
+      "abtype": "HpUp",
+      "level_unit": "14",
+      "name": "ability_003"
+    },
+    {
+      "idx": "100206",
+      "abtype": "HpUp",
+      "level_unit": "30",
+      "name": "ability_003"
+    },
+    {
+      "idx": "100207",
+      "abtype": "HpUp",
+      "level_unit": "31",
+      "name": "ability_003"
+    },
+    {
+      "idx": "100208",
+      "abtype": "HpUp",
+      "level_unit": "32",
+      "name": "ability_003"
+    },
+    {
+      "idx": "100209",
+      "abtype": "HpUp",
+      "level_unit": "33",
+      "name": "ability_003"
+    },
+    {
+      "idx": "100210",
+      "abtype": "HpUp",
+      "level_unit": "34",
+      "name": "ability_003"
+    },
+    {
+      "idx": "100301",
+      "abtype": "ArmorUp",
+      "level_unit": "30",
+      "name": "ability_004"
+    },
+    {
+      "idx": "100302",
+      "abtype": "ArmorUp",
+      "level_unit": "31",
+      "name": "ability_004"
+    },
+    {
+      "idx": "100303",
+      "abtype": "ArmorUp",
+      "level_unit": "32",
+      "name": "ability_004"
+    },
+    {
+      "idx": "100304",
+      "abtype": "ArmorUp",
+      "level_unit": "33",
+      "name": "ability_004"
+    },
+    {
+      "idx": "100305",
+      "abtype": "ArmorUp",
+      "level_unit": "34",
+      "name": "ability_004"
+    },
+    {
+      "idx": "100306",
+      "abtype": "ArmorUp",
+      "level_unit": "50",
+      "name": "ability_004"
+    },
+    {
+      "idx": "100307",
+      "abtype": "ArmorUp",
+      "level_unit": "51",
+      "name": "ability_004"
+    },
+    {
+      "idx": "100308",
+      "abtype": "ArmorUp",
+      "level_unit": "52",
+      "name": "ability_004"
+    },
+    {
+      "idx": "100309",
+      "abtype": "ArmorUp",
+      "level_unit": "53",
+      "name": "ability_004"
+    },
+    {
+      "idx": "100310",
+      "abtype": "ArmorUp",
+      "level_unit": "54",
+      "name": "ability_004"
+    },
+    {
+      "idx": "100401",
+      "abtype": "AttackUp",
+      "level_unit": "10",
+      "name": "ability_005"
+    },
+    {
+      "idx": "100402",
+      "abtype": "AttackUp",
+      "level_unit": "11",
+      "name": "ability_005"
+    },
+    {
+      "idx": "100403",
+      "abtype": "AttackUp",
+      "level_unit": "12",
+      "name": "ability_005"
+    },
+    {
+      "idx": "100404",
+      "abtype": "AttackUp",
+      "level_unit": "13",
+      "name": "ability_005"
+    },
+    {
+      "idx": "100405",
+      "abtype": "AttackUp",
+      "level_unit": "14",
+      "name": "ability_005"
+    },
+    {
+      "idx": "100406",
+      "abtype": "AttackUp",
+      "level_unit": "30",
+      "name": "ability_005"
+    },
+    {
+      "idx": "100407",
+      "abtype": "AttackUp",
+      "level_unit": "31",
+      "name": "ability_005"
+    },
+    {
+      "idx": "100408",
+      "abtype": "AttackUp",
+      "level_unit": "32",
+      "name": "ability_005"
+    },
+    {
+      "idx": "100409",
+      "abtype": "AttackUp",
+      "level_unit": "33",
+      "name": "ability_005"
+    },
+    {
+      "idx": "100410",
+      "abtype": "AttackUp",
+      "level_unit": "34",
+      "name": "ability_005"
+    }
+  ]
+}
