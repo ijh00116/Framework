@@ -17,14 +17,14 @@ namespace BlackTree
             //로드 인벤토리
             skillinventory.Init();
 
-          
-
             foreach(var _slotdata in skillinventory.GetSlots)
             {
                 var slotdisplay = Instantiate(uidisplayPrefab);
                 slotdisplay.transform.SetParent(parent, false);
                 slotdisplay.Init(_slotdata);
             }
+
+            PlayfabManager.Instance.skillinventory = skillinventory;
         }
 
         public void Update()
@@ -49,7 +49,6 @@ namespace BlackTree
             {
                 skillinventory.Container = Newtonsoft.Json.JsonConvert.DeserializeObject<Inventory>(jsondata);
             }
-          
         }
         //플레이팹이지만 나중에 서버로 변경
     }

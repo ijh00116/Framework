@@ -23,9 +23,6 @@ namespace BlackTree
                         instance.Init();
                     }
                 }
-                
-
-                
                 return instance;
             }
             
@@ -42,7 +39,7 @@ namespace BlackTree
             }
             else
             {
-                DestroyImmediate(instance);
+                //DestroyImmediate(instance);
             }
         }
 
