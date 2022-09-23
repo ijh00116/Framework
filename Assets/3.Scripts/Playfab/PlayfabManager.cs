@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using PlayFab;
 using PlayFab.ClientModels;
+using System;
 
 namespace BlackTree
 {
@@ -27,11 +28,15 @@ namespace BlackTree
             }
             if (Input.GetKeyDown(KeyCode.L))
             {
-                GetTitleData();
+                GetInventory();
             }
             if (Input.GetKeyDown(KeyCode.S))
             {
-                SaveAppearance();
+                PurchaseItem();
+            }
+            if(Input.GetKeyDown(KeyCode.M))
+            {
+                SetInventoryCustomData();
             }
         }
         #region 클라우드 스크립트
@@ -47,7 +52,7 @@ namespace BlackTree
 
         private void OnExecuteSuccess(ExecuteCloudScriptResult result)
         {
-            Debug.Log(result.FunctionResult.ToString());
+           // Debug.Log(result.ToString());
         }
         #endregion
 
@@ -131,6 +136,47 @@ namespace BlackTree
         {
             Debug.Log(obj.ErrorMessage);
             Debug.Log(obj.GenerateErrorReport());
+        }
+
+        public void SetInventoryCustomData()
+        {
+            var request = new ExecuteCloudScriptRequest
+            {
+                FunctionName = "SetCustomItemdata",
+                FunctionParameter = new { itemid = "5994484AEBAA5D0", equip = "true"}
+            };
+            PlayFabClientAPI.ExecuteCloudScript(request, OnExecuteSuccess, OnError);
+        }
+
+        public void PurchaseItem()
+        {
+            PlayFabClientAPI.PurchaseItem(new PurchaseItemRequest
+            {
+                // In your game, this should just be a constant matching your primary catalog
+                CatalogVersion = "CharacterItem",
+                ItemId = "910001",
+                Price = 0,
+                VirtualCurrency = "GD"
+            }, PurchaseItem_Result, OnError);
+        }
+
+        public void PurchaseItem_Result(PurchaseItemResult result)
+        {
+            Debug.Log(result.Items.ToString());
+        }
+
+        public void GetInventory()
+        {
+            PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), OnGetUserInventorySuccess, OnError);
+        }
+
+        void OnGetUserInventorySuccess(GetUserInventoryResult result)
+        {
+            foreach(var _item in result.Inventory)
+            {
+                Debug.Log(_item.CustomData.ToString());
+            }
+            //Debug.Log(result.Inventory.ToString());
         }
     }
 }
