@@ -143,7 +143,11 @@ namespace BlackTree
             var request = new ExecuteCloudScriptRequest
             {
                 FunctionName = "SetCustomItemdata",
-                FunctionParameter = new { itemid = "5994484AEBAA5D0", equip = "true"}
+                FunctionParameter = new { itemid = "5994484AEBAA5D0", Level= skillinventory.GetSlots[0].skill.Level,
+                    amount= skillinventory.GetSlots[0].skill.amount,
+                    Equiped = skillinventory.GetSlots[0].skill.Equiped,
+                    idx = skillinventory.GetSlots[0].skill.idx,
+                }
             };
             PlayFabClientAPI.ExecuteCloudScript(request, OnExecuteSuccess, OnError);
         }
@@ -174,6 +178,10 @@ namespace BlackTree
         {
             foreach(var _item in result.Inventory)
             {
+                var json =Newtonsoft.Json.JsonConvert.SerializeObject( _item.CustomData);
+
+                var skill= Newtonsoft.Json.JsonConvert.DeserializeObject<Skill>(json);
+
                 Debug.Log(_item.CustomData.ToString());
             }
             //Debug.Log(result.Inventory.ToString());
